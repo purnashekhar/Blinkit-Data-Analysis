@@ -39,8 +39,8 @@ The dashboard provides key insights and opportunities for optimization using mul
 ---
 
 ## 📊 Dashboard Preview
-*(Add your Power BI dashboard image here)*  
-`![Blinkit Dashboard](blinkit_dashboard_preview.png)`
+<img width="1427" height="776" alt="Screenshot 2025-10-25 091708" src="https://github.com/user-attachments/assets/07093e7d-3efd-46e9-aebb-7ded96ce5ba9" />
+
 
 ---
 
