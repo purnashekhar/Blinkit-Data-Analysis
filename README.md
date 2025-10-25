@@ -70,7 +70,7 @@ It demonstrates how **Power BI** can transform raw business data into actionable
 **Your Name**  
 Data Analyst | Power BI | Excel | SQL | Python  
 📧 purnashekhar2352@gmail.com
-🔗 [LinkedIn Profile](www.linkedin.com/in/bandi-purnashekhar)  
+🔗 www.linkedin.com/in/bandi-purnashekhar
 🔗 [GitHub Profile](https://github.com/purnashekhar)
 
 ---
