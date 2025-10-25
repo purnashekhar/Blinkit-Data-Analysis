@@ -69,9 +69,9 @@ It demonstrates how **Power BI** can transform raw business data into actionable
 ## 👨‍💻 Author
 **Your Name**  
 Data Analyst | Power BI | Excel | SQL | Python  
-📧 your.email@example.com  
-🔗 [LinkedIn Profile](https://linkedin.com/in/yourprofile)  
-🔗 [GitHub Profile](https://github.com/yourusername)
+📧 purnashekhar2352@gmail.com
+🔗 [LinkedIn Profile](www.linkedin.com/in/bandi-purnashekhar)  
+🔗 [GitHub Profile](https://github.com/purnashekhar)
 
 ---
 
