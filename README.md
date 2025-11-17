@@ -1,78 +1,230 @@
-# 📊 Blinkit Data Analysis Dashboard (Power BI Project)
-
-## 🧭 Project Overview
-This project presents a **comprehensive Power BI dashboard** for analyzing **Blinkit’s sales performance, customer satisfaction, and inventory distribution**.  
-The dashboard provides key insights and opportunities for optimization using multiple **KPIs** and **interactive visualizations**.
+Sure! Here is the **clean, copy-paste ready README** exactly as you need it for GitHub.
+Just **select all → copy → paste into your README.md**.
 
 ---
 
-## 🎯 Key Performance Indicators (KPIs)
+# 📊 **Blinkit Data Analysis — SQL + Power BI Project**
 
-| KPI | Description | Value |
-|------|--------------|--------|
-| 💰 **Total Sales** | Overall revenue generated from all items sold | **$1.20M** |
-| 💵 **Average Sales** | Average revenue per sale | **$141** |
-| 📦 **Number of Items** | Total number of items sold | **8,523** |
-| ⭐ **Average Rating** | Average customer rating | **3.9 / 5** |
+A complete end-to-end data analytics project combining **SQL data cleaning & analysis** with an **interactive Power BI dashboard** to uncover sales trends, customer behavior, outlet performance, and business insights.
 
 ---
 
-## 🧩 Dashboard Features
+## 🧭 **Project Overview**
 
-- 🎛️ **Filter Panel** — Filter data by *Outlet Location Type*, *Outlet Size*, and *Item Type*  
-- 📈 **Outlet Establishment Trend** — Shows outlet growth from **2012 to 2022**  
-- 🥗 **Fat Content Analysis** — Breaks down sales for *Low Fat* vs *Regular Fat* items  
-- 🍎 **Item Type Distribution** — Displays sales share across product categories  
-- 🏬 **Outlet Size & Location Analysis** — Examines performance by *Outlet Size* and *Tier Location*  
-- 🛒 **Outlet Type Comparison** — Compares sales, average sales, item counts, ratings, and visibility across outlet types  
+This project analyzes the **Blinkit Sales Dataset** using:
 
----
+* **SQL** for data cleaning, preprocessing, optimization, and exploratory data analysis
+* **Power BI** for creating an interactive dashboard with KPIs, charts, filters, and business insights
 
-## 🔍 Insights & Conclusions
-
-- 💵 Strong overall sales performance — **over $1M in total sales**  
-- 🥦 Customers show preference for **low-fat** products (health-conscious trend)  
-- 🍌 **Fruits, Vegetables, and Snack Foods** are top-selling categories  
-- 🏙️ **Medium-sized outlets in Tier-3 locations** are the most profitable  
-- 🏪 **Supermarkets** generate higher sales volumes, while **Grocery Stores** have better item visibility  
+This demonstrates a **real-world analytics workflow**, from raw data to insights.
 
 ---
 
-## 📊 Dashboard Preview
-<img width="1427" height="776" alt="Screenshot 2025-10-25 091708" src="https://github.com/user-attachments/assets/07093e7d-3efd-46e9-aebb-7ded96ce5ba9" />
+# 🗃️ **1. SQL Data Cleaning & Preprocessing**
 
+SQL was used to prepare the raw dataset by:
+
+### ✔ Renaming inconsistent columns
+
+### ✔ Standardizing categorical values
+
+### ✔ Converting text columns into numeric formats
+
+### ✔ Optimizing data types (DECIMAL, YEAR, ENUM, VARCHAR)
+
+### ✔ Removing data quality issues before visualization
+
+### 🔧 Key SQL Cleaning Steps
+
+#### Rename incorrect column
+
+```sql
+ALTER TABLE blinkit_data 
+RENAME COLUMN `item_Fat_Content` TO Item_Fat_Content;
+```
+
+#### Standardize fat content values
+
+```sql
+UPDATE blinkit_data
+SET Item_Fat_Content = 
+    CASE 
+        WHEN Item_Fat_Content IN ('LF', 'low fat') THEN 'Low Fat'
+        WHEN Item_Fat_Content = 'reg' THEN 'Regular'
+        ELSE Item_Fat_Content
+    END;
+```
+
+#### Optimize data types
+
+```sql
+ALTER TABLE blinkit_data
+MODIFY COLUMN Item_Fat_Content ENUM('Low Fat','Regular'),
+MODIFY COLUMN Item_Identifier VARCHAR(10),
+MODIFY COLUMN Item_Type VARCHAR(50),
+MODIFY COLUMN Outlet_Establishment_Year YEAR,
+MODIFY COLUMN Outlet_Identifier VARCHAR(10),
+MODIFY COLUMN Outlet_Location_Type ENUM('Tier 1','Tier 2','Tier 3'),
+MODIFY COLUMN Outlet_Size ENUM('Small','Medium','High'),
+MODIFY COLUMN Outlet_Type VARCHAR(50),
+MODIFY COLUMN Item_Visibility DECIMAL(5,4),
+MODIFY COLUMN Item_Weight DECIMAL(6,2),
+MODIFY COLUMN Total_Sales DECIMAL(10,2),
+MODIFY COLUMN Rating DECIMAL(3,1);
+```
 
 ---
 
-## 🛠️ Tools & Technologies Used
-- **Microsoft Power BI**
-  - Data Cleaning & Modeling  
-  - DAX Measures & KPIs  
-  - Interactive Visualizations & Slicers  
-  - Dashboard Design  
-- **Microsoft Excel** (for preprocessing data)
-- **Data Source:** Blinkit Sales Dataset (for educational purposes)
+# 📌 **2. SQL KPI Calculations**
+
+### 💰 Total Sales (in Millions)
+
+```sql
+SELECT CAST(SUM(Total_Sales)/1000000.0 AS DECIMAL(10,2)) AS Total_Sales_Million 
+FROM blinkit_data;
+```
+
+### 💵 Average Sales
+
+```sql
+SELECT CAST(AVG(Total_Sales) AS DECIMAL(10,0)) AS Avg_Sales 
+FROM blinkit_data;
+```
+
+### 📦 Total Items Sold
+
+```sql
+SELECT COUNT(*) AS No_of_Items FROM blinkit_data;
+```
+
+### ⭐ Average Rating
+
+```sql
+SELECT CAST(AVG(Rating) AS DECIMAL(10,1)) AS Avg_Rating 
+FROM blinkit_data;
+```
 
 ---
 
-## 📘 Project Insights Summary
-This analysis highlights **data-driven strategies** for improving Blinkit’s outlet performance, product focus, and sales efficiency.  
-It demonstrates how **Power BI** can transform raw business data into actionable insights.
+# 🔍 **3. SQL Exploratory Data Analysis (EDA)**
+
+### 🥗 Total Sales by Fat Content
+
+```sql
+SELECT Item_Fat_Content, SUM(Total_Sales) AS Total_Sales
+FROM blinkit_data
+GROUP BY Item_Fat_Content;
+```
+
+### 🍎 Total Sales by Item Type
+
+```sql
+SELECT Item_Type, SUM(Total_Sales)
+FROM blinkit_data
+GROUP BY Item_Type
+ORDER BY SUM(Total_Sales) DESC;
+```
+
+### 🏙️ Fat Content by Outlet Location (Pivot Style)
+
+```sql
+SELECT Outlet_Location_Type,
+SUM(CASE WHEN Item_Fat_Content='Low Fat' THEN Total_Sales ELSE 0 END) AS Low_Fat,
+SUM(CASE WHEN Item_Fat_Content='Regular' THEN Total_Sales ELSE 0 END) AS Regular
+FROM blinkit_data
+GROUP BY Outlet_Location_Type;
+```
+
+### 📅 Sales by Outlet Establishment Year
+
+```sql
+SELECT Outlet_Establishment_Year, SUM(Total_Sales)
+FROM blinkit_data
+GROUP BY Outlet_Establishment_Year
+ORDER BY Outlet_Establishment_Year;
+```
+
+### 🏬 Sales % by Outlet Size
+
+```sql
+SELECT Outlet_Size,
+ROUND(SUM(Total_Sales),2) AS Total_Sales,
+ROUND((SUM(Total_Sales)*100.0 / SUM(SUM(Total_Sales)) OVER()),2) AS Sales_Percentage
+FROM blinkit_data
+GROUP_BY Outlet_Size;
+```
 
 ---
 
-## ⚠️ Note
-> This analysis was conducted **for educational purposes only** and does not represent actual business data from Blinkit.
+# 📊 **4. Power BI Dashboard**
+
+After SQL cleaning, the dataset was loaded into **Power BI** to build a modern, interactive dashboard.
+
+### 🎯 Key KPIs
+
+| KPI                 | Description          | Value       |
+| ------------------- | -------------------- | ----------- |
+| 💰 Total Sales      | Total revenue        | **$1.20M**  |
+| 💵 Average Sales    | Avg revenue per item | **$141**    |
+| 📦 Total Items Sold | Count of items       | **8,523**   |
+| ⭐ Average Rating    | Customer rating      | **3.9 / 5** |
 
 ---
 
-## 👨‍💻 Author
-**Bandi Purna Shekhar**  
-Data Analyst | Power BI | Excel | SQL | Python  
-📧 purnashekhar2352@gmail.com
-🔗 www.linkedin.com/in/bandi-purnashekhar
-🔗 [GitHub Profile](https://github.com/purnashekhar)
+# 🧩 **5. Dashboard Features**
+
+✔ **Filter Panel** (Outlet Location Type, Outlet Size, Item Type)
+✔ **Outlet Establishment Trend** (2012–2022)
+✔ **Fat Content Analysis** (Low Fat vs Regular)
+✔ **Item Type Distribution** (top-selling categories)
+✔ **Outlet Size & Location Performance**
+✔ **Outlet Type Comparison** (metrics across outlet types)
+
+---
+<img width="1427" height="776" alt="Blinkit dashboard image" src="https://github.com/user-attachments/assets/8b3b62e1-eaa9-411a-8109-c967df05d2ec" />
+
+
+# 📈 **6. Insights & Conclusions**
+
+### Key Findings
+
+* Total sales cross **$1 Million**
+* Customers prefer **Low Fat** products
+* **Fruits, Vegetables, and Snacks** lead in revenue
+* **Medium-sized outlets** perform the best
+* **Tier-3 cities** generate high demand
+* **Supermarkets** outperform traditional grocery stores
+* Grocery stores have high visibility but lower sales
+
+### Business Recommendations
+
+* Increase stock of low-fat items
+* Expand medium-sized outlets in Tier-3 regions
+* Improve visibility in lower-performing outlets
+* Focus on top-performing item categories
+* Enhance customer ratings through product quality initiatives
 
 ---
 
-⭐ **If you found this project insightful, don’t forget to give it a star!** ⭐
+# 🛠️ **Tools & Technologies Used**
+
+* **MySQL** — Cleaning, transformation, EDA
+* **Power BI** — Dashboard visualization
+* **Excel** — Preprocessing
+* **DAX** — KPI calculations
+* **SQL Window Functions** — Advanced analysis
+
+---
+
+# 👨‍💻 **Author**
+
+**Bandi Purna Shekhar**
+*Data Analyst — SQL | Power BI | Excel | Python*
+
+📧 Email: [purnashekhar2352@gmail.com](mailto:purnashekhar2352@gmail.com)
+🔗 LinkedIn: [www.linkedin.com/in/bandi-purna-shekhar](http://www.linkedin.com/in/bandi-purna-shekhar)
+🔗 GitHub: *Your GitHub link here*
+
+⭐ If you like this project, please consider giving it a star! ⭐
+
+---
