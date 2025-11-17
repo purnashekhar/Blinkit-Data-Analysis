@@ -1,5 +1,4 @@
-Sure! Here is the **clean, copy-paste ready README** exactly as you need it for GitHub.
-Just **select all → copy → paste into your README.md**.
+
 
 ---
 
